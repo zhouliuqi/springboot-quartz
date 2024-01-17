@@ -6,6 +6,7 @@ import java.lang.annotation.*;
 
 /**
  * @author 肘劉祁
+ * 切换数据源注解  
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

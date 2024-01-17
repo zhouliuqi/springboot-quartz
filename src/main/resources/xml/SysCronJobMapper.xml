@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zrgj.quartz.mybatis.mapper.SysCronJobMapper">
+
+    <!--获取时间表达式任务-->
+    <select id="getCronJobByJobIdMapper" resultType="com.zrgj.quartz.vo.SysCronJobVo">
+        SELECT T1.ID             AS cronJobId,
+               T1.JOB_ID         AS jobId,
+               T1.CRON           AS cron,
+               T1.MISFIRE_POLICY AS misfirePolicy,
+               T1.CREATE_TIME    AS createTime,
+               T1.UPDATE_TIME    AS updateTime
+        FROM SYS_CRON_JOB AS T1
+        WHERE T1.JOB_ID = #{jobId}
+          AND T1.IS_DELETED = 0
+    </select>
+</mapper>

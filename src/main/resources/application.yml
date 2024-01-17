@@ -1,0 +1,33 @@
+server:
+  port: 8888 #端口号
+  servlet:
+    context-path: /api
+spring:
+  profiles:
+    active: dev
+  main:
+    #允许循环依赖
+    allow-circular-references: true
+knife4j:
+  #开启增强注解
+  enable: true
+  #文档保护
+  basic:
+    #开启
+    enable: true
+    #密码设置
+    password: admin
+    #用户名设置
+    username: admin
+  #设置个性化
+  setting:
+    #开启版本控制
+    enable-version: true
+    #设置中文
+    language: zh_cn
+    #参数对象描述
+    swagger-model-name: 实体类
+    #主页底部信息允许自定义
+    enable-footer-custom: true
+    #主页底部信息
+    footer-custom-content: 认证可用

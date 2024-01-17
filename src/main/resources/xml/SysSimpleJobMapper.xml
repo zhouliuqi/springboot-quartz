@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zrgj.quartz.mybatis.mapper.SysSimpleJobMapper">
+
+    <!--获取普通任务-->
+    <select id="getSimpleJobByJobIdMapper" resultType="com.zrgj.quartz.vo.SysSimpleJobVo">
+        SELECT T1.ID             AS simpleJobId,
+               T1.JOB_ID         AS jobId,
+               T1.COUNT          AS count,
+               T1.TIME_UNIT      AS timeUnit,
+               T1.TIME_INTERVAL  AS timeInterval,
+               T1.MISFIRE_POLICY AS misfirePolicy,
+               T1.CREATE_TIME    AS createTime,
+               T1.UPDATE_TIME    AS updateTime
+        FROM SYS_SIMPLE_JOB AS T1
+        WHERE T1.JOB_ID = #{jobId}
+          AND T1.IS_DELETED = 0
+    </select>
+</mapper>

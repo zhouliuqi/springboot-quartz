@@ -1,0 +1,128 @@
+spring:
+  redis:
+    # Redis 数据库索引（默认为 0）
+    database: 0
+    # Redis 服务器地址
+    host: 127.0.0.1
+    # Redis 服务器连接端口
+    port: 6379
+    # Redis 服务器连接密码（默认为空）
+    password: ENC(VUv2/smMS9U8M9jHpoUp5RYN1uPEOqeflR9fW+FLAg0pbrfS1l6nBIltZ4hONBQt)
+    lettuce:
+      pool:
+        # 连接池最大连接数（使用负值表示没有限制） 默认 8
+        max-active: 8
+        # 连接池最大阻塞等待时间（使用负值表示没有限制） 默认 -1
+        max-wait: -1
+        # 连接池中的最大空闲连接 默认 8
+        max-idle: 8
+        # 连接池中的最小空闲连接 默认 0
+        min-idle: 0
+        #超时
+    timeout: 5000
+  datasource:
+    dynamic:
+      #默认数据源
+      primary: MASTER
+      #连接池信息配置
+      druid:
+        # 用于校验连接是否有效的 SQL 查询语句
+        validationQuery: SELECT 1 FROM DUAL
+        # 初始化连接池大小
+        initialSize: 5
+        #连接池保持的最小空闲连接数
+        minIdle: 10
+        #连接池中同时活动的最大连接数
+        maxActive: 20
+        #获取连接时的最大等待时间，单位为毫秒
+        maxWait: 60000
+        # 连接池中连接在空闲状态下最小的生存时间，超过该时间会被关闭，单位是毫秒
+        minEvictableIdleTimeMillis: 600000
+        # 连接池中连接在空闲状态下最大的生存时间，超过该时间会被关闭，单位是毫秒
+        maxEvictableIdleTimeMillis: 900000
+        #配置间隔多久进行一次检测，检测需要关闭的空闲连接，单位毫秒。 默认是60s，太长可能会导致无法及时检测到连接中断
+        timeBetweenEvictionRunsMillis: 2000
+        #是否在获取连接时执行测试查询，用于检测连接是否有效
+        testOnBorrow: false
+        #是否在归还连接时执行测试查询，用于检测连接是否有效
+        testOnReturn: false
+        #配置从连接池获取连接时，当连接空闲时间大于timeBetweenEvictionRunsMillis时是否检查连接有效性，true每次都检查；false不检查
+        testWhileIdle: true
+        #配置是否定期探活
+        keepAlive: true
+        #配置探活间隔 默认120s
+        keepAliveBetweenTimeMillis: 30000
+        #配置一个连接最大使用次数，避免长时间使用相同连接造成服务器端负载不均衡
+        phyMaxUseCount: 1000
+        #可以在连接关闭时记录日志
+        logAbandoned: true
+        #开启缓存 可以提升性能
+        poolPreparedStatements: true
+        # stat 可用于统计监控连接池的活动情况，wall 可用于防止 SQL 注入攻击，slf4j 可用于记录连接池的日志
+        filters: stat,slf4j
+      datasource:
+        MASTER:
+          #连接地址
+          url: jdbc:mysql://127.0.0.1:3306/DEV?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8
+          #连接账号
+          username: root
+          #连接密码
+          password: ENC(l+3YqYv00fi3pQDT5x8g2YVGyMAVquzH59MM/WxM4FKCOXZIky2yVA5PO9uAxTh0)
+          #驱动类
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          # 使用druid数据源
+          type: com.alibaba.druid.pool.DruidDataSource
+        QUARTZ:
+          #连接地址
+          url: jdbc:mysql://127.0.0.1:3306/QUARTZ?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8
+          #连接账号
+          username: root
+          #连接密码
+          password: ENC(oD9JeBn5c+uK5R6SRnLgvK7HU23jQFCc13LhPMJNBZniiQE1ae52iVPCOhtHogae)
+          #驱动类
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          # 使用druid数据源
+          type: com.alibaba.druid.pool.DruidDataSource
+        ACTIVITY:
+          #连接地址
+          #a.从mysql-connector-java 5.x 到 6.x，nullCatalogMeansCurrent属性由原来的默认true改为了false。
+          #b.true 使用指定的数据库进行查询。优先取当前传入的数据库名，其次取当前链接的数据库名。
+          #c.false 代表遍历当前链接下的所有数据库进行查询
+          url: jdbc:mysql://127.0.0.1:3306/activity?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true
+          #连接账号
+          username: root
+          #连接密码
+          password: ENC(c/YETUSf4WLYJ7QwdcyNY3v/faPNlp4Pt8X7u7wd8omUW/+9lta29HNHfYyFw3Te)
+          #驱动类
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          # 使用druid数据源
+          type: com.alibaba.druid.pool.DruidDataSource
+  servlet:
+    multipart:
+      #设置上传文件大小
+      max-file-size: 10MB
+      # 设置 整个请求的大小
+      max-request-size: 10MB
+mybatis-plus:
+  #指定xml位置
+  mapper-locations: classpath:xml/*.xml
+  global-config:
+    db-config:
+      #全局逻辑删除字段
+      logic-delete-field: isDeleted
+      #删除则值为1
+      logic-delete-value: 1
+      #没有删除则值为0
+      logic-not-delete-value: 0
+  configuration:
+    #开启驼峰命名
+    map-underscore-to-camel-case: true
+    #开启二级缓存
+    cache-enabled: true
+    #配置日志
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+    #配置参数信息
+    variables:
+      file-url: http://127.0.0.1:8888/file/data/get/
+  #别名包扫描路径
+  type-aliases-package: com.zrgj.quartz.mybatis.pojo

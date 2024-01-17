@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zrgj.quartz.mybatis.mapper.SysJobMapper">
+    <resultMap id="getJobByIdMapperMap" type="com.zrgj.quartz.vo.SysJobVo" autoMapping="true">
+        <association column="jobId=jobId"
+                     select="com.zrgj.quartz.mybatis.mapper.SysCronJobMapper.getCronJobByJobIdMapper"
+                     property="cronJob"/>
+        <association property="simpleJob" javaType="com.zrgj.quartz.vo.SysSimpleJobVo"
+                     column="jobId=jobId"
+                        select="com.zrgj.quartz.mybatis.mapper.SysSimpleJobMapper.getSimpleJobByJobIdMapper"/>
+    </resultMap>
+
+    <!--获取工作任务详情-->
+    <select id="getJobDetailsByUuIdMapper" resultMap="getJobByIdMapperMap">
+        SELECT T1.ID             AS jobId,
+               T1.JOB_NAME       AS jobName,
+               T1.UUID           AS uuid,
+               T1.JOB_GROUP      AS jobGroup,
+               T1.START_TIME     AS startTime,
+               T1.END_TIME       AS endTime,
+               T1.TYPE           AS type,
+               T1.INVOKE_TARGET  AS invokeTarget,
+               T1.IS_CURRENT     AS isCurrent,
+               T1.IS_PAUSE       AS isPause
+        FROM SYS_JOB AS T1
+        WHERE T1.UUID = #{uuid}
+          AND T1.IS_DELETED = 0
+    </select>
+
+
+
+    <!--获取工作任务基本信息-->
+    <select id="getJobBasicInfoByUuidMapper" resultType="com.zrgj.quartz.vo.SysJobVo">
+        SELECT T1.ID            AS jobId,
+               T1.JOB_NAME          AS jobName,
+               T1.UUID          AS uuid,
+               T1.JOB_GROUP    AS jobGroup
+        FROM SYS_JOB AS T1
+        WHERE T1.UUID = #{uuid}
+          AND T1.IS_DELETED = 0
+    </select>
+
+    <!--获取任务基本信息列表-->
+    <select id="getJobBasicInfoListMapper" resultType="com.zrgj.quartz.vo.SysJobVo">
+        SELECT T1.ID            AS jobId,
+               T1.JOB_NAME          AS jobName,
+               T1.UUID          AS uuid,
+               T1.JOB_GROUP    AS jobGroup,
+               T1.START_TIME     AS startTime,
+               T1.END_TIME       AS endTime,
+               T1.TYPE          AS type,
+               T1.IS_CURRENT    AS isCurrent,
+               T1.IS_PAUSE     AS isPause
+        FROM SYS_JOB AS T1
+          WHERE T1.IS_DELETED = 0
+    </select>
+</mapper>
